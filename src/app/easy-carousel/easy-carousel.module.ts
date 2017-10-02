@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CarouselComponent } from './carousel/carousel.component';
 
@@ -13,4 +13,8 @@ import { CarouselComponent } from './carousel/carousel.component';
     CarouselComponent
   ]
 })
-export class EasyCarouselModule { }
+export class EasyCarouselModule {
+  static forRoot(): ModuleWithProviders {
+    return {ngModule: EasyCarouselModule, providers: []};
+  }
+}

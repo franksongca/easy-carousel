@@ -9,7 +9,7 @@
         "removeComments": false,
         "noImplicitAny": true,
         "declaration": true,
-        "outDir": "./lib",
+        "outDir": "./build",
         "stripInternal": true,
         "lib": [
             "es6",
