@@ -38,7 +38,7 @@ export class CarouselComponent implements OnInit, OnChanges {
   }
 
   moveLeft(drivenBy) {
-    if (this.carouselIndex > -(this.carouselInfo.items.length - 2)) {
+    if (this.carouselIndex > -(this.carouselInfo.items.length - this.carouselInfo.itemsInOneScreen)) {
       this.carouselIndex--;
       if (!this.inAutoPlaying) {
         this.moveingDir = CarouselComponent.MOVE_LEFT;
@@ -121,7 +121,7 @@ export class CarouselComponent implements OnInit, OnChanges {
     if (this.carouselIndex === 0) {
       this.allowMoveLeft = true;
       this.allowMoveRight = false;
-    } else if (this.carouselIndex === -(this.carouselInfo.items.length -  2)) {
+    } else if (this.carouselIndex === -(this.carouselInfo.items.length - this.carouselInfo.itemsInOneScreen)) {
       this.allowMoveLeft = false;
       this.allowMoveRight = true;
     } else {
@@ -136,9 +136,9 @@ export class CarouselComponent implements OnInit, OnChanges {
     }
 
     if (window.innerWidth < this.carouselInfo.contentWidth) {
-      this.carouselInfo.originalWidth = window.innerWidth / 2;
+      this.carouselInfo.originalWidth = window.innerWidth / this.carouselInfo.itemsInOneScreen;
     } else {
-      this.carouselInfo.originalWidth = this.carouselInfo.contentWidth / 2;
+      this.carouselInfo.originalWidth = this.carouselInfo.contentWidth / this.carouselInfo.itemsInOneScreen;
     }
     this.carouselInfo.originalHeight = this.carouselInfo.originalWidth * this.ratioY;
   }
