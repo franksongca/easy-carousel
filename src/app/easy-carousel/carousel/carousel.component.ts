@@ -7,16 +7,12 @@ import { Observable } from 'rxjs/Rx';
   styleUrls: ['./carousel.component.css']
 })
 export class CarouselComponent implements OnInit, OnChanges {
+  static  MOVE_LEFT = 0;
+  static  MOVE_RIGHT = 1;
+
   @Input() carouselInfo: any;
 
   @Output() onNotifyCarouselSelected: EventEmitter<number> = new EventEmitter<any>();
-  @HostListener('window:resize', ['$event'])
-  onResize(event) {
-    this.adjustCarouselInfo();
-  }
-
-  static  MOVE_LEFT = 0;
-  static  MOVE_RIGHT = 1;
 
   ratioY;
   autoPlayHandler;
@@ -26,11 +22,17 @@ export class CarouselComponent implements OnInit, OnChanges {
   inAutoPlaying = false;
   idleCount;
   idleCountIndex = 0;
-  moveingDir = CarouselComponent.MOVE_LEFT; //'to-left';
+  moveingDir = CarouselComponent.MOVE_LEFT;
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.adjustCarouselInfo();
+  }
+
 
   onMouseMove(e) {
     if (!this.inAutoPlaying) {
-      console.log('reset idel')
+      console.log('reset idel');
       this.idleCountIndex = 0;
     }
   }
@@ -78,25 +80,6 @@ export class CarouselComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    this.idleCount = Math.round(this.carouselInfo.autoPlay.idle / this.carouselInfo.autoPlay.duration);
-    this.ratioY = this.carouselInfo.originalHeight / this.carouselInfo.originalWidth;
-
-    if (this.carouselInfo.autoPlay.enable) {
-      let timer = Observable.timer(this.carouselInfo.autoPlay.delay, this.carouselInfo.autoPlay.duration);
-      this.autoPlayHandler = timer.subscribe(() => {
-        if (this.inAutoPlaying) {
-          if (this.moveingDir === CarouselComponent.MOVE_LEFT) {
-            this.moveLeft('auto');
-          } else {
-            this.moveRight('auto');
-          }
-        } else {
-          if (!this.inAutoPlaying && this.idleCountIndex++ > this.idleCount) {
-            this.inAutoPlaying = true;
-          }
-        }
-      });
-    }
   }
 
   stopAutoPlay() {
@@ -105,6 +88,32 @@ export class CarouselComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    if (changes['carouselInfo'].firstChange) {
+      return;
+    }
+
+    if (!changes['carouselInfo'].previousValue) {
+      this.idleCount = Math.round(this.carouselInfo.autoPlay.idle / this.carouselInfo.autoPlay.duration);
+      this.ratioY = this.carouselInfo.originalHeight / this.carouselInfo.originalWidth;
+
+      if (this.carouselInfo.autoPlay.enable) {
+        const timer = Observable.timer(this.carouselInfo.autoPlay.delay, this.carouselInfo.autoPlay.duration);
+        this.autoPlayHandler = timer.subscribe(() => {
+          if (this.inAutoPlaying) {
+            if (this.moveingDir === CarouselComponent.MOVE_LEFT) {
+              this.moveLeft('auto');
+            } else {
+              this.moveRight('auto');
+            }
+          } else {
+            if (!this.inAutoPlaying && this.idleCountIndex++ > this.idleCount) {
+              this.inAutoPlaying = true;
+            }
+          }
+        });
+      }
+    }
+
     this.adjustCarouselInfo();
   }
 
@@ -127,9 +136,9 @@ export class CarouselComponent implements OnInit, OnChanges {
     }
 
     if (window.innerWidth < this.carouselInfo.contentWidth) {
-      this.carouselInfo.originalWidth = window.innerWidth/2;
+      this.carouselInfo.originalWidth = window.innerWidth / 2;
     } else {
-      this.carouselInfo.originalWidth = this.carouselInfo.contentWidth/2;
+      this.carouselInfo.originalWidth = this.carouselInfo.contentWidth / 2;
     }
     this.carouselInfo.originalHeight = this.carouselInfo.originalWidth * this.ratioY;
   }
