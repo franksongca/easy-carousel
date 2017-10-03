@@ -47,7 +47,6 @@ ul {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  transition-timing-function: cubic-bezier(.74, .33, .83, .67)  /*ease-in-out;*/
 }
 
 li {

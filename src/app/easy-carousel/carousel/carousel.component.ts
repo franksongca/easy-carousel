@@ -7,7 +7,6 @@ import { Observable } from 'rxjs/Rx';
   styleUrls: ['./carousel.component.css']
 })
 export class CarouselComponent implements OnInit, OnChanges {
-  @Input() carouselItems: any;
   @Input() carouselInfo: any;
 
   @Output() onNotifyCarouselSelected: EventEmitter<number> = new EventEmitter<any>();
@@ -19,6 +18,7 @@ export class CarouselComponent implements OnInit, OnChanges {
   static  MOVE_LEFT = 0;
   static  MOVE_RIGHT = 1;
 
+  ratioY;
   autoPlayHandler;
   carouselIndex = 0;
   allowMoveLeft = true;
@@ -36,7 +36,7 @@ export class CarouselComponent implements OnInit, OnChanges {
   }
 
   moveLeft(drivenBy) {
-    if (this.carouselIndex > -(this.carouselItems.length - 2)) {
+    if (this.carouselIndex > -(this.carouselInfo.items.length - 2)) {
       this.carouselIndex--;
       if (!this.inAutoPlaying) {
         this.moveingDir = CarouselComponent.MOVE_LEFT;
@@ -79,6 +79,7 @@ export class CarouselComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.idleCount = Math.round(this.carouselInfo.autoPlay.idle / this.carouselInfo.autoPlay.duration);
+    this.ratioY = this.carouselInfo.originalHeight / this.carouselInfo.originalWidth;
 
     if (this.carouselInfo.autoPlay.enable) {
       let timer = Observable.timer(this.carouselInfo.autoPlay.delay, this.carouselInfo.autoPlay.duration);
@@ -111,7 +112,7 @@ export class CarouselComponent implements OnInit, OnChanges {
     if (this.carouselIndex === 0) {
       this.allowMoveLeft = true;
       this.allowMoveRight = false;
-    } else if (this.carouselIndex === -(this.carouselItems.length -  2)) {
+    } else if (this.carouselIndex === -(this.carouselInfo.items.length -  2)) {
       this.allowMoveLeft = false;
       this.allowMoveRight = true;
     } else {
@@ -130,7 +131,7 @@ export class CarouselComponent implements OnInit, OnChanges {
     } else {
       this.carouselInfo.originalWidth = this.carouselInfo.contentWidth/2;
     }
-    this.carouselInfo.originalHeight = this.carouselInfo.originalWidth * this.carouselInfo.ratioY;
+    this.carouselInfo.originalHeight = this.carouselInfo.originalWidth * this.ratioY;
   }
 
   onCarouselItemSelected(n) {
