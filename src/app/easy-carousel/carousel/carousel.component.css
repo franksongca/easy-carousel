@@ -3,6 +3,8 @@
   position: relative;
   overflow: hidden;
   background: white;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .carousel-item-container {
