@@ -29,6 +29,6 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 https://www.usefuldev.com/blog/post/publishing-a-library-from-an-angular-cli-project
 
 ## publish
-npm run ngc-build
+npm run prepare
 npm login
 npm publish

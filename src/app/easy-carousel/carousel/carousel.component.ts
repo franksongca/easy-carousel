@@ -115,7 +115,7 @@ export class CarouselComponent implements OnInit, OnChanges {
           item['multiple'] = false;
           if (item.hasOwnProperty('items')) {
             item['multiple'] = true;
-            item.items.forEach((child) => {git
+            item.items.forEach((child) => {
               child['size'] = {};
               child['position'] = {};
               child.size.width = child.sizeRatio.width * this.carouselInfo.originalWidth;
