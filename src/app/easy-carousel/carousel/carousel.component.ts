@@ -103,7 +103,7 @@ export class CarouselComponent implements OnInit, OnChanges {
       return;
     }
 
-    if (!changes['carouselInfo'].previousValue && !this.idleCount) {
+    if (!changes['carouselInfo'].previousValue && changes['carouselInfo'].currentValue && !this.idleCount) {
       this.idleCount = Math.round(CarouselComponent.MIN_IDEL_TIME / this.carouselInfo.autoPlay.duration);
       if (this.idleCount === 0) {
         this.idleCount = 1;
@@ -115,7 +115,7 @@ export class CarouselComponent implements OnInit, OnChanges {
           item['multiple'] = false;
           if (item.hasOwnProperty('items')) {
             item['multiple'] = true;
-            item.items.forEach((child) => {
+            item.items.forEach((child) => {git
               child['size'] = {};
               child['position'] = {};
               child.size.width = child.sizeRatio.width * this.carouselInfo.originalWidth;
