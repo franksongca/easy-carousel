@@ -28,7 +28,95 @@ Before running the tests make sure you are serving the app via `ng serve`.
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 https://www.usefuldev.com/blog/post/publishing-a-library-from-an-angular-cli-project
 
-## publish
-npm run prepare
-npm login
-npm publish
+#Usage
+
+## Template
+<easy-carousel [carouselInfo]="demo1CarouselInfo" (onNotifyCarouselSelected)="onCarouselDemo1Selected($event)"></easy-carousel>
+
+## Module (Sample data)
+demo1CarouselInfo = 
+{
+  "maxWidth": 1200,
+  "ratioHW": 0.65,
+  "itemsInOneScreen": 3,
+  "animationDuration": 1.5,
+  "itemOutlineColor": "white",
+  "autoPlay": {
+    "enable": true,
+    "delay": 2000,
+    "duration": 2000
+  },
+  "trnsactionEffect": "ease-in",
+  "items": [
+    {"id": 1, "img": "./assets/img/carousel/1.jpg", "name": "NAME 1", "desc": "desc 1"},
+    {
+      "items": [
+        {
+          "id": 2,
+          "img": "./assets/img/carousel/2-1.jpg",
+          "name": "NAME 2-1",
+          "desc": "desc 2-1",
+          "sizeRatio": {
+            "width": 0.5,
+            "height": 1
+          },
+          "positionRatio": {
+            "x": 0,
+            "y": 0
+          }
+        },
+        {
+          "id": 3,
+          "img": "./assets/img/carousel/4.jpg",
+          "name": "NAME 2-2",
+          "desc": "desc 2-2",
+          "sizeRatio": {
+            "width": 0.5,
+            "height": 0.5
+          },
+          "positionRatio": {
+            "x": 0.5,
+            "y": 0
+          }
+        },
+        {
+          "id": 17,
+          "img": "./assets/img/carousel/10.jpg",
+          "name": "NAME 2-3",
+          "desc": "desc 2-3",
+          "sizeRatio": {
+            "width": 0.5,
+            "height": 0.5
+          },
+          "positionRatio": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        }
+      ]
+    },
+  ...
+  ],
+  "carouselItemColor": {
+    "name": "white",
+    "desc": "white"
+  }
+}
+
+## Configuration Details
+
+- maxWidth: The maxmium width of the carouse
+- ratioHW": the ratio of height vs width for each carousel item
+- itemsInOneScreen: the account of carousel items display in one screen
+- animationDuration": the carousel animation duration
+- itemOutlineColor": outline color of each carousel item
+- autoPlay: 
+    enable: true  - enable auto play or not 
+    delay: - delay before auto play
+    duration: - duration of auto play animation
+- trnsactionEffect: carousel animation effect
+- items: - define all carousel items. if a carousel item contains children, each child must define their sizeRatio and positionRatio, they are relative to the width and height of the parent carousel item.
+- carouselItemColor - carousel item text colors
+
+## Sample project
+https://github.com/franksongca/easy-carousel-demo
