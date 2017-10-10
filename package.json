@@ -1,6 +1,6 @@
 {
   "name": "easy-carousel",
-  "version": "1.0.20-alpha",
+  "version": "1.0.24-alpha",
   "license": "MIT",
   "author": "Frank Song",
   "email": "songfrank@hotmail.com",
@@ -44,7 +44,8 @@
     "@angular/router": "^4.2.4",
     "core-js": "^2.4.1",
     "rxjs": "^5.4.2",
-    "zone.js": "^0.8.14"
+    "zone.js": "^0.8.14",
+    "ng2-events": "^3.1.0"
   },
   "peerDependencies": {
     "@angular/core": "^2.3.1 || >=4.0.0"
