@@ -99,10 +99,22 @@ demo1CarouselInfo =
     },
   ...
   ],
-  "carouselItemColor": {
-    "name": "white",
-    "desc": "white"
-  }
+    "carouselItemInfo": {
+      "name": "white",
+      "desc": "lightgray",
+      "minFontSize": 15,
+      "maxFontSize": 40,
+      "nameFontFamily": "",
+      "descFontFamily": ""
+    },
+    "carouselChildItemInfo": {
+      "name": "white",
+      "desc": "lightgray",
+      "minFontSize": 10,
+      "maxFontSize": 30,
+      "nameFontFamily": "",
+      "descFontFamily": ""
+    }
 }
 
 ## Configuration Details
@@ -110,8 +122,9 @@ demo1CarouselInfo =
 - maxWidth: The maxmium width of the carouse
 - ratioHW": the ratio of height vs width for each carousel item
 - itemsInOneScreen: the account of carousel items display in one screen
-- animationDuration": the carousel animation duration
-- itemOutlineColor": outline color of each carousel item
+- animationDuration: the carousel animation duration
+- carouselItemInfo: define color, font-size and font-family of each carousel item
+- carouselChildItemInfo: define color, font-size and font-family of each child carousel item
 - autoPlay: 
     enable: true  - enable auto play or not 
     delay: - delay before auto play
