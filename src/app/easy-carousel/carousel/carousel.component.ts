@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input, HostListener, SimpleChanges, OnChanges } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, HostListener, SimpleChanges, OnChanges, AfterViewInit } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
 @Component({
@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Rx';
   templateUrl: './carousel.component.html',
   styleUrls: ['./carousel.component.css']
 })
-export class CarouselComponent implements OnInit, OnChanges {
+export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
   static MIN_IDEL_TIME = 5000;
   static  MOVE_LEFT = 0;
   static  MOVE_RIGHT = 1;
@@ -79,7 +79,6 @@ export class CarouselComponent implements OnInit, OnChanges {
   }
 
   constructor() {
-    this.adjustCarouselInfo();
     this.mouseEventManager = new MouseEventManager();
     this.mouseEventManager.onNotifyMoveCarousel.subscribe((dir) => {
       if (dir === 0 && (this.carouselIndex > -(this.carouselInfo.items.length - this.carouselInfo.itemsInOneScreen))) {
@@ -91,6 +90,12 @@ export class CarouselComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
+  }
+
+  ngAfterViewInit() {
+    Observable.timer(100).subscribe(() => {
+      this.adjustCarouselInfo();
+    });
   }
 
   stopAutoPlay() {
@@ -106,6 +111,7 @@ export class CarouselComponent implements OnInit, OnChanges {
       }
       this.carouselInfo['originalWidth'] = this.carouselInfo.maxWidth / this.carouselInfo.itemsInOneScreen;
       this.carouselInfo['originalHeight'] = this.carouselInfo['originalWidth'] * this.carouselInfo.ratioHW;
+
       this.carouselInfo.items.forEach((item) => {
         if (item['multiple'] === undefined) {
           item['multiple'] = false;
@@ -139,9 +145,8 @@ export class CarouselComponent implements OnInit, OnChanges {
           }
         });
       }
+      this.adjustCarouselInfo();
     }
-
-    this.adjustCarouselInfo();
   }
 
   updateArrowButtonStatus() {
@@ -167,6 +172,26 @@ export class CarouselComponent implements OnInit, OnChanges {
     } else {
       this.carouselInfo.originalWidth = this.carouselInfo.maxWidth / this.carouselInfo.itemsInOneScreen;
     }
+
+    this.carouselInfo.carouselItemInfo['nameFontSize'] = this.carouselInfo['originalHeight']/7.5;
+    if (this.carouselInfo.carouselItemInfo['nameFontSize'] > this.carouselInfo.carouselItemInfo['maxFontSize']) {
+      this.carouselInfo.carouselItemInfo['nameFontSize'] = this.carouselInfo.carouselItemInfo['maxFontSize']
+    }
+    if (this.carouselInfo.carouselItemInfo['nameFontSize'] < this.carouselInfo.carouselItemInfo['minFontSize']) {
+      this.carouselInfo.carouselItemInfo['nameFontSize'] = this.carouselInfo.carouselItemInfo['minFontSize']
+    }
+    this.carouselInfo.carouselItemInfo['descFontSize'] = this.carouselInfo.carouselItemInfo['NameFontSize'] * 0.8;
+
+    this.carouselInfo.carouselChildItemInfo['nameFontSize'] = this.carouselInfo['originalHeight']/7.5 * 0.7;
+    if (this.carouselInfo.carouselChildItemInfo['nameFontSize'] > this.carouselInfo.carouselChildItemInfo['maxFontSize']) {
+      this.carouselInfo.carouselChildItemInfo['nameFontSize'] = this.carouselInfo.carouselChildItemInfo['maxFontSize']
+    }
+    if (this.carouselInfo.carouselChildItemInfo['nameFontSize'] < this.carouselInfo.carouselChildItemInfo['minFontSize']) {
+      this.carouselInfo.carouselChildItemInfo['nameFontSize'] = this.carouselInfo.carouselChildItemInfo['minFontSize']
+    }
+    this.carouselInfo.carouselChildItemInfo['descFontSize'] = this.carouselInfo.carouselItemInfo['NameFontSize'] * 0.8;
+
+
     this.carouselInfo.originalHeight = this.carouselInfo.originalWidth * this.carouselInfo.ratioHW;
     this.carouselInfo.items.forEach((item) => {
       if (item['multiple'] === true) {
