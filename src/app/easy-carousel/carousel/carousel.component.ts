@@ -180,6 +180,13 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
       this.carouselInfo['originalWidth'] = this.carouselInfo.maxWidth / this.carouselInfo.itemsInOneScreen;
       this.carouselInfo['originalHeight'] = this.carouselInfo['originalWidth'] * this.carouselInfo.ratioHW;
 
+      if (!this.carouselInfo.carouselItemInfo.itemOutlineWidth) {
+        this.carouselInfo.carouselItemInfo.itemOutlineWidth = 1;
+      }
+      if (!this.carouselInfo.carouselChildItemInfo.itemOutlineWidth) {
+        this.carouselInfo.carouselChildItemInfo.itemOutlineWidth = 1;
+      }
+
       this.carouselInfo.items.forEach((item) => {
         if (item['multiple'] === undefined) {
           item['multiple'] = false;

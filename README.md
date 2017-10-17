@@ -101,20 +101,22 @@ demo1CarouselInfo =
   ...
   ],
     "carouselItemInfo": {
-      "name": "white",
-      "desc": "lightgray",
+      "nameColor": "white",
+      "descColor": "lightgray",
       "minFontSize": 15,
       "maxFontSize": 40,
       "nameFontFamily": "",
-      "descFontFamily": ""
+      "descFontFamily": "",
+      "itemOutlineWidth": 3
     },
     "carouselChildItemInfo": {
-      "name": "white",
-      "desc": "lightgray",
+      "color": "white",
+      "descColor": "lightgray",
       "minFontSize": 10,
       "maxFontSize": 30,
       "nameFontFamily": "",
-      "descFontFamily": ""
+      "descFontFamily": "",
+      "itemOutlineWidth": 2
     }
 }
 
@@ -133,7 +135,8 @@ demo1CarouselInfo =
     duration: - duration of auto play animation
 - trnsactionEffect: carousel animation effect
 - items: - define all carousel items. if a carousel item contains children, each child must define their sizeRatio and positionRatio, they are relative to the width and height of the parent carousel item.
-- carouselItemColor - carousel item text colors
+- carouselItemInfo - carousel item text colors, mini-fontSize, max-fontSize, fint families, outline color and width
+- carouselChildItemInfo - carousel child item text colors, mini-fontSize, max-fontSize, fint families, outline color and width
 
 ## Sample project
 https://github.com/franksongca/easy-carousel-demo
