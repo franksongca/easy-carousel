@@ -38,6 +38,7 @@ https://www.usefuldev.com/blog/post/publishing-a-library-from-an-angular-cli-pro
 ## Module (Sample data)
 demo1CarouselInfo = 
 {
+  "looping": true,
   "maxWidth": 1200,
   "ratioHW": 0.65,
   "itemsInOneScreen": 3,
@@ -119,6 +120,7 @@ demo1CarouselInfo =
 
 ## Configuration Details
 
+- looping: move to left/right endlessly,  
 - maxWidth: The maxmium width of the carouse
 - ratioHW": the ratio of height vs width for each carousel item
 - itemsInOneScreen: the account of carousel items display in one screen

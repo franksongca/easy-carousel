@@ -40,8 +40,27 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
 
   moveLeft(drivenBy) {
     console.log('moveLeft');
-    if (this.carouselIndex > -(this.carouselInfo.items.length - this.carouselInfo.itemsInOneScreen)) {
-      this.carouselIndex--;
+
+    if (this.carouselInfo.looping) {
+      if (this.carouselIndex === -(this.carouselInfo.items.length - this.carouselInfo.itemsInOneScreen)) {
+        // when cannot go left furher, move the first item to the right end
+        // but need to update the position of the carousel items
+
+        let t = this.carouselInfo.animationDuration;
+        this.carouselInfo.animationDuration = 0;
+        this.carouselIndex = -(this.carouselInfo.items.length - this.carouselInfo.itemsInOneScreen) + 1;
+        let firstItem = this.carouselInfo.items.shift();
+        this.carouselInfo.items.push(firstItem);
+
+        Observable.timer(0).subscribe(() => {
+          this.carouselInfo.animationDuration = t;
+          this.carouselIndex--;
+        });
+      } else {
+        this.carouselIndex--;
+      }
+
+
       if (!this.inAutoPlaying) {
         this.moveingDir = CarouselComponent.MOVE_LEFT;
       } else {
@@ -49,19 +68,48 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
           this.stopAutoPlay();
         }
       }
-      this.updateArrowButtonStatus();
     } else {
-      if (drivenBy === 'auto') {
-        this.moveingDir = CarouselComponent.MOVE_RIGHT;
-        this.moveRight('auto');
+      if (this.carouselIndex > -(this.carouselInfo.items.length - this.carouselInfo.itemsInOneScreen)) {
+        this.carouselIndex--;
+        if (!this.inAutoPlaying) {
+          this.moveingDir = CarouselComponent.MOVE_LEFT;
+        } else {
+          if (drivenBy === 'byMouse') {
+            this.stopAutoPlay();
+          }
+        }
+        this.updateArrowButtonStatus();
+      } else {
+        if (drivenBy === 'auto') {
+          this.moveingDir = CarouselComponent.MOVE_RIGHT;
+          this.moveRight('auto');
+        }
       }
     }
   }
 
   moveRight(drivenBy) {
     console.log('moveRight');
-    if (this.carouselIndex < 0) {
-      this.carouselIndex++;
+
+    if (this.carouselInfo.looping) {
+      if (this.carouselIndex === 0) {
+        // when cannot go right furher, move the last item to the left end
+        // but need to update the position of the carousel items
+
+        let t = this.carouselInfo.animationDuration;
+        this.carouselInfo.animationDuration = 0;
+        this.carouselIndex = -1;
+        let lastItem = this.carouselInfo.items.pop();
+        this.carouselInfo.items.unshift(lastItem);
+
+        Observable.timer(0).subscribe(() => {
+          this.carouselInfo.animationDuration = t;
+          this.carouselIndex++;
+        });
+      } else {
+        this.carouselIndex++;
+      }
+
       if (!this.inAutoPlaying) {
         this.moveingDir = CarouselComponent.MOVE_RIGHT;
       } else {
@@ -69,11 +117,22 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
           this.stopAutoPlay();
         }
       }
-      this.updateArrowButtonStatus();
     } else {
-      if (drivenBy === 'auto') {
-        this.moveingDir = CarouselComponent.MOVE_LEFT;
-        this.moveLeft('auto');
+      if (this.carouselIndex < 0) {
+        this.carouselIndex++;
+        if (!this.inAutoPlaying) {
+          this.moveingDir = CarouselComponent.MOVE_RIGHT;
+        } else {
+          if (drivenBy === 'byMouse') {
+            this.stopAutoPlay();
+          }
+        }
+        this.updateArrowButtonStatus();
+      } else {
+        if (drivenBy === 'auto') {
+          this.moveingDir = CarouselComponent.MOVE_LEFT;
+          this.moveLeft('auto');
+        }
       }
     }
   }
@@ -81,10 +140,14 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
   constructor() {
     this.mouseEventManager = new MouseEventManager();
     this.mouseEventManager.onNotifyMoveCarousel.subscribe((dir) => {
-      if (dir === 0 && (this.carouselIndex > -(this.carouselInfo.items.length - this.carouselInfo.itemsInOneScreen))) {
-        this.moveLeft('auto');
-      } else if (dir === 1 && (this.carouselIndex < 0)) {
-        this.moveRight('auto');
+      if (dir === 0) {
+        if (this.carouselInfo.looping || (this.carouselIndex > -(this.carouselInfo.items.length - this.carouselInfo.itemsInOneScreen))) {
+          this.moveLeft('auto');
+        }
+      } else {
+        if (this.carouselInfo.looping || this.carouselIndex < 0) {
+          this.moveRight('auto');
+        }
       }
     });
   }
@@ -105,6 +168,11 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (!changes['carouselInfo'].previousValue && changes['carouselInfo'].currentValue && !this.idleCount) {
+      if (this.carouselInfo.looping) {
+        this.allowMoveLeft = true;
+        this.allowMoveRight = true;
+      }
+
       this.idleCount = Math.round(CarouselComponent.MIN_IDEL_TIME / this.carouselInfo.autoPlay.duration);
       if (this.idleCount === 0) {
         this.idleCount = 1;
@@ -150,6 +218,10 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   updateArrowButtonStatus() {
+    if (this.carouselInfo.looping) {
+      return;
+    }
+
     if (this.carouselIndex === 0) {
       this.allowMoveLeft = true;
       this.allowMoveRight = false;
