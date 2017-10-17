@@ -32,7 +32,6 @@
 }
 .arrow {
   text-shadow: 1px 1px rgba(0, 0, 0, 0.3);
-  z-index: 800;
   margin-top: -35px;
   width: 70px;
   height: 70px;
@@ -63,7 +62,6 @@
 
 ul {
   position: relative;
-  z-index: 799;
   list-style-type: none;
   margin: 0;
   padding: 0;

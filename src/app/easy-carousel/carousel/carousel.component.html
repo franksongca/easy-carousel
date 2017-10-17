@@ -1,6 +1,5 @@
 <ng-template #carousel>
   <div class="carousel-container" [ngStyle]="{'max-width': carouselInfo?.maxWidth + 'px', 'height': carouselInfo?.originalHeight + 'px'}">
-    <div class="arrow arrow-left" [ngClass]="{'clickable': allowMoveRight}" (click)="moveRight('byMouse')"></div>
     <ul (mousemove)="onMouseMove($event)" (down)="down($event)" (up)="up($event)" [ngStyle]="{'transition-duration': carouselInfo?.animationDuration + 's', 'transition-timing-function': carouselInfo?.trnsactionEffect, 'transition': 'left ' + carouselInfo?.animationDuration + 's', '-webkit-transition': 'left ' + carouselInfo?.animationDuration + 's', 'left': (carouselIndex * carouselInfo?.originalWidth + carouselInfo?.carouselItemInfo.itemOutlineWidth/2) + 'px', 'width': carouselInfo?.originalWidth * carouselInfo?.items.length + 'px', 'height': carouselInfo?.originalHeight + 'px'}">
       <li *ngFor="let carouselItem of carouselInfo?.items; let i = index" [ngStyle]="{'width': carouselInfo?.originalWidth + 'px', 'height': carouselInfo?.originalHeight + 'px'}">
         <div class="item-content" (down)="onCarouselItemSelected(carouselItem.id)" [ngStyle]="{'outline': carouselInfo?.carouselItemInfo.itemOutlineWidth + 'px solid ' + carouselInfo?.itemOutlineColor}">
@@ -22,6 +21,7 @@
         </div>
       </li>
     </ul>
+    <div class="arrow arrow-left" [ngClass]="{'clickable': allowMoveRight}" (click)="moveRight('byMouse')"></div>
     <div class="arrow arrow-right" [ngClass]="{'clickable': allowMoveLeft}" (click)="moveLeft('byMouse')"></div>
   </div>
 </ng-template>
