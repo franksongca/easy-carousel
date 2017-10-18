@@ -15,6 +15,7 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
 
   @Output() onNotifyCarouselSelected: EventEmitter<Object> = new EventEmitter<any>();
 
+  selectedCarouselItem;
   mouseEventManager;
   autoPlayHandler;
   carouselIndex = 0;
@@ -252,6 +253,8 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
       this.carouselInfo.originalWidth = this.carouselInfo.maxWidth / this.carouselInfo.itemsInOneScreen;
     }
 
+    this.carouselInfo.selectedItemInfo.opacity = 0;
+
     this.carouselInfo.carouselItemInfo['nameFontSize'] = this.carouselInfo['originalHeight']/7.5;
     if (this.carouselInfo.carouselItemInfo['nameFontSize'] > this.carouselInfo.carouselItemInfo['maxFontSize']) {
       this.carouselInfo.carouselItemInfo['nameFontSize'] = this.carouselInfo.carouselItemInfo['maxFontSize']
@@ -259,7 +262,7 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
     if (this.carouselInfo.carouselItemInfo['nameFontSize'] < this.carouselInfo.carouselItemInfo['minFontSize']) {
       this.carouselInfo.carouselItemInfo['nameFontSize'] = this.carouselInfo.carouselItemInfo['minFontSize']
     }
-    this.carouselInfo.carouselItemInfo['descFontSize'] = this.carouselInfo.carouselItemInfo['NameFontSize'] * 0.8;
+    this.carouselInfo.carouselItemInfo['descFontSize'] = this.carouselInfo.carouselItemInfo['nameFontSize'] * 0.8;
 
     this.carouselInfo.carouselChildItemInfo['nameFontSize'] = this.carouselInfo['originalHeight']/7.5 * 0.7;
     if (this.carouselInfo.carouselChildItemInfo['nameFontSize'] > this.carouselInfo.carouselChildItemInfo['maxFontSize']) {
@@ -268,8 +271,17 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
     if (this.carouselInfo.carouselChildItemInfo['nameFontSize'] < this.carouselInfo.carouselChildItemInfo['minFontSize']) {
       this.carouselInfo.carouselChildItemInfo['nameFontSize'] = this.carouselInfo.carouselChildItemInfo['minFontSize']
     }
-    this.carouselInfo.carouselChildItemInfo['descFontSize'] = this.carouselInfo.carouselItemInfo['NameFontSize'] * 0.8;
+    this.carouselInfo.carouselChildItemInfo['descFontSize'] = this.carouselInfo.carouselItemInfo['nameFontSize'] * 0.8;
 
+    this.carouselInfo.selectedItemInfo['nameFontSize'] = this.carouselInfo['originalHeight']/7.5 * 0.7;
+    if (this.carouselInfo.selectedItemInfo['nameFontSize'] > this.carouselInfo.selectedItemInfo['maxFontSize']) {
+      this.carouselInfo.selectedItemInfo['nameFontSize'] = this.carouselInfo.selectedItemInfo['maxFontSize']
+    }
+    if (this.carouselInfo.selectedItemInfo['nameFontSize'] < this.carouselInfo.selectedItemInfo['minFontSize']) {
+      this.carouselInfo.selectedItemInfo['nameFontSize'] = this.carouselInfo.selectedItemInfo['minFontSize']
+    }
+    this.carouselInfo.selectedItemInfo['descFontSize'] = this.carouselInfo.selectedItemInfo['nameFontSize'] * 0.8;
+    this.carouselInfo.selectedItemInfo['deatilsFontSize'] = this.carouselInfo.selectedItemInfo['nameFontSize'] * 0.7;
 
     this.carouselInfo.originalHeight = this.carouselInfo.originalWidth * this.carouselInfo.ratioHW;
     this.carouselInfo.items.forEach((item) => {
@@ -279,20 +291,49 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
           child.size.height = child.sizeRatio.height * this.carouselInfo.originalHeight;
           child.position.x = child.positionRatio.x * this.carouselInfo.originalWidth;
           child.position.y = child.positionRatio.y * this.carouselInfo.originalHeight;
+
+          if (!child.selectedImg) {
+            child.selectedImg = child.img;
+          }
+
         });
+      } else {
+        if (!item.selectedImg) {
+          item.selectedImg = item.img;
+        }
       }
     });
   }
 
-  onCarouselItemSelected(id) {
-    if (id === undefined) {
+  onCarouselItemSelected(item) {
+    if (item === undefined) {
       return;
     }
     this.mouseEventManager.wait((goForward) => {
       if (goForward) {
         this.stopAutoPlay();
-        this.onNotifyCarouselSelected.emit(id);
+
+        if (!!this.carouselInfo.selectedItemInfo) {
+          this.selectedCarouselItem = item;
+          Observable.timer(0).subscribe(() => {
+            this.carouselInfo.selectedItemInfo.opacity = 1;
+          });
+        }
+
+        this.onNotifyCarouselSelected.emit(item.id);
       }
+    });
+  }
+
+  onSelectedItemClicked(id) {
+    alert('element ' + id + ' selected!');
+  }
+
+  closeSelected() {
+    this.carouselInfo.selectedItemInfo.opacity = 0;
+
+    Observable.timer(1000).subscribe(() => {
+      this.selectedCarouselItem = undefined;
     });
   }
 
