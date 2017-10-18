@@ -2,8 +2,12 @@
   "name": "easy-carousel",
   "version": "1.0.29",
   "license": "MIT",
-  "author": "Frank Song",
-  "email": "songfrank@hotmail.com",
+  "author": {
+    "name": "Frank Song",
+    "email": "songfrank@hotmail.com",
+    "url": "https://www.linkedin.com/in/frsnksongyu/"
+  },
+  "description": "An easy to use carousel component, responsive, fully configurable, functioning well.",
   "keywords": [
     "Angular",
     "Angular-cli",
@@ -11,6 +15,10 @@
     "Carousel"
   ],
   "private": false,
+  "bugs": {
+    "url": "https://github.com/franksongca/easy-carousel/issues",
+    "email": "songfrank@hotmail.com"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
