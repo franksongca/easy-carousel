@@ -28,6 +28,7 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
+    this.closeSelected();
     this.adjustCarouselInfo();
   }
 
@@ -174,6 +175,7 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
         this.allowMoveRight = true;
       }
 
+      this.carouselInfo.selectedItemInfo.paddingOriginal = this.carouselInfo.selectedItemInfo.padding;
       this.idleCount = Math.round(CarouselComponent.MIN_IDEL_TIME / this.carouselInfo.autoPlay.duration);
       if (this.idleCount === 0) {
         this.idleCount = 1;
@@ -253,6 +255,8 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
       this.carouselInfo.originalWidth = this.carouselInfo.maxWidth / this.carouselInfo.itemsInOneScreen;
     }
 
+    let ratio = this.carouselInfo.itemsInOneScreen * this.carouselInfo.originalWidth / this.carouselInfo.maxWidth;
+    this.carouselInfo.selectedItemInfo.padding = this.carouselInfo.selectedItemInfo.paddingOriginal * ratio;
     this.carouselInfo.selectedItemInfo.opacity = 0;
 
     this.carouselInfo.carouselItemInfo['nameFontSize'] = this.carouselInfo['originalHeight']/7.5;
@@ -330,9 +334,9 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
     });
   }
 
-  onSelectedItemClicked(id) {
-    alert('element ' + id + ' selected!');
-  }
+  // onSelectedItemClicked(id) {
+  //   alert('element ' + id + ' selected!');
+  // }
 
   closeSelected() {
     this.carouselInfo.selectedItemInfo.opacity = 0;
