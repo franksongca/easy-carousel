@@ -175,7 +175,9 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
         this.allowMoveRight = true;
       }
 
-      this.carouselInfo.selectedItemInfo.paddingOriginal = this.carouselInfo.selectedItemInfo.padding;
+      if (this.carouselInfo.selectedItemInfo) {
+        this.carouselInfo.selectedItemInfo.paddingOriginal = this.carouselInfo.selectedItemInfo.padding;
+      }
       this.idleCount = Math.round(CarouselComponent.MIN_IDEL_TIME / this.carouselInfo.autoPlay.duration);
       if (this.idleCount === 0) {
         this.idleCount = 1;
@@ -249,15 +251,13 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
       return;
     }
 
-    if (window.innerWidth < this.carouselInfo.maxWidth) {
-      this.carouselInfo.originalWidth = window.innerWidth / this.carouselInfo.itemsInOneScreen;
-    } else {
+    if (window.innerWidth > this.carouselInfo.maxWidth) {
       this.carouselInfo.originalWidth = this.carouselInfo.maxWidth / this.carouselInfo.itemsInOneScreen;
+    } else {
+      this.carouselInfo.originalWidth = window.innerWidth / this.carouselInfo.itemsInOneScreen;
     }
 
     let ratio = this.carouselInfo.itemsInOneScreen * this.carouselInfo.originalWidth / this.carouselInfo.maxWidth;
-    this.carouselInfo.selectedItemInfo.padding = this.carouselInfo.selectedItemInfo.paddingOriginal * ratio;
-    this.carouselInfo.selectedItemInfo.opacity = 0;
 
     this.carouselInfo.carouselItemInfo['nameFontSize'] = this.carouselInfo['originalHeight']/7.5;
     if (this.carouselInfo.carouselItemInfo['nameFontSize'] > this.carouselInfo.carouselItemInfo['maxFontSize']) {
@@ -276,21 +276,6 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
       this.carouselInfo.carouselChildItemInfo['nameFontSize'] = this.carouselInfo.carouselChildItemInfo['minFontSize']
     }
     this.carouselInfo.carouselChildItemInfo['descFontSize'] = this.carouselInfo.carouselItemInfo['nameFontSize'] * 0.8;
-
-    this.carouselInfo.selectedItemInfo['nameFontSize'] = this.carouselInfo['originalHeight']/7.5 * 0.7;
-    if (this.carouselInfo.selectedItemInfo['nameFontSize'] > this.carouselInfo.selectedItemInfo['maxFontSize']) {
-      this.carouselInfo.selectedItemInfo['nameFontSize'] = this.carouselInfo.selectedItemInfo['maxFontSize']
-    }
-    if (this.carouselInfo.selectedItemInfo['nameFontSize'] < this.carouselInfo.selectedItemInfo['minFontSize']) {
-      this.carouselInfo.selectedItemInfo['nameFontSize'] = this.carouselInfo.selectedItemInfo['minFontSize']
-    }
-    this.carouselInfo.selectedItemInfo['descFontSize'] = this.carouselInfo.selectedItemInfo['nameFontSize'] * 0.8;
-    this.carouselInfo.selectedItemInfo['deatilsFontSize'] = this.carouselInfo.selectedItemInfo['nameFontSize'] * 0.7;
-
-    this.carouselInfo.selectedItemInfo.width = this.carouselInfo.itemsInOneScreen * this.carouselInfo.originalWidth - this.carouselInfo.selectedItemInfo.padding * 2;
-    this.carouselInfo.selectedItemInfo.height = this.carouselInfo.originalHeight - this.carouselInfo.selectedItemInfo.padding * 2;
-    this.carouselInfo.selectedItemInfo.imageWidth = this.carouselInfo.selectedItemInfo.height/this.carouselInfo.ratioHW;
-    this.carouselInfo.selectedItemInfo.htmlWidth = this.carouselInfo.selectedItemInfo.width - this.carouselInfo.selectedItemInfo.imageWidth - this.carouselInfo.selectedItemInfo.selectedItemOutlineWidth * 2;
 
     this.carouselInfo.originalHeight = this.carouselInfo.originalWidth * this.carouselInfo.ratioHW;
     this.carouselInfo.items.forEach((item) => {
@@ -312,6 +297,25 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
         }
       }
     });
+
+    if (this.carouselInfo.selectedItemInfo) {
+      this.carouselInfo.selectedItemInfo.padding = this.carouselInfo.selectedItemInfo.paddingOriginal * ratio;
+      this.carouselInfo.selectedItemInfo['opacity'] = 0;
+      this.carouselInfo.selectedItemInfo['nameFontSize'] = this.carouselInfo['originalHeight']/7.5 * 0.7;
+      if (this.carouselInfo.selectedItemInfo['nameFontSize'] > this.carouselInfo.selectedItemInfo['maxFontSize']) {
+        this.carouselInfo.selectedItemInfo['nameFontSize'] = this.carouselInfo.selectedItemInfo['maxFontSize']
+      }
+      if (this.carouselInfo.selectedItemInfo['nameFontSize'] < this.carouselInfo.selectedItemInfo['minFontSize']) {
+        this.carouselInfo.selectedItemInfo['nameFontSize'] = this.carouselInfo.selectedItemInfo['minFontSize']
+      }
+      this.carouselInfo.selectedItemInfo['descFontSize'] = this.carouselInfo.selectedItemInfo['nameFontSize'] * 0.8;
+      this.carouselInfo.selectedItemInfo['deatilsFontSize'] = this.carouselInfo.selectedItemInfo['nameFontSize'] * 0.7;
+
+      this.carouselInfo.selectedItemInfo.width = this.carouselInfo.itemsInOneScreen * this.carouselInfo.originalWidth - this.carouselInfo.selectedItemInfo.padding * 2;
+      this.carouselInfo.selectedItemInfo.height = this.carouselInfo.originalHeight - this.carouselInfo.selectedItemInfo.padding * 2;
+      this.carouselInfo.selectedItemInfo.imageWidth = this.carouselInfo.selectedItemInfo.height/this.carouselInfo.ratioHW;
+      this.carouselInfo.selectedItemInfo.htmlWidth = this.carouselInfo.selectedItemInfo.width - this.carouselInfo.selectedItemInfo.imageWidth - this.carouselInfo.selectedItemInfo.selectedItemOutlineWidth * 2 - this.carouselInfo.selectedItemInfo.padding * 2;
+    }
   }
 
   onCarouselItemSelected(item) {
@@ -339,7 +343,9 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
   // }
 
   closeSelected() {
-    this.carouselInfo.selectedItemInfo.opacity = 0;
+    if (this.carouselInfo.selectedItemInfo) {
+      this.carouselInfo.selectedItemInfo.opacity = 0;
+    }
 
     Observable.timer(1000).subscribe(() => {
       this.selectedCarouselItem = undefined;
