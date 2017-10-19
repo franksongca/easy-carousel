@@ -283,6 +283,11 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
     this.carouselInfo.selectedItemInfo['descFontSize'] = this.carouselInfo.selectedItemInfo['nameFontSize'] * 0.8;
     this.carouselInfo.selectedItemInfo['deatilsFontSize'] = this.carouselInfo.selectedItemInfo['nameFontSize'] * 0.7;
 
+    this.carouselInfo.selectedItemInfo.width = this.carouselInfo.itemsInOneScreen * this.carouselInfo.originalWidth - this.carouselInfo.selectedItemInfo.padding * 2;
+    this.carouselInfo.selectedItemInfo.height = this.carouselInfo.originalHeight - this.carouselInfo.selectedItemInfo.padding * 2;
+    this.carouselInfo.selectedItemInfo.imageWidth = this.carouselInfo.selectedItemInfo.height/this.carouselInfo.ratioHW;
+    this.carouselInfo.selectedItemInfo.htmlWidth = this.carouselInfo.selectedItemInfo.width - this.carouselInfo.selectedItemInfo.imageWidth - this.carouselInfo.selectedItemInfo.selectedItemOutlineWidth * 2;
+
     this.carouselInfo.originalHeight = this.carouselInfo.originalWidth * this.carouselInfo.ratioHW;
     this.carouselInfo.items.forEach((item) => {
       if (item['multiple'] === true) {

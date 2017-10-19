@@ -16,6 +16,10 @@
   overflow: hidden;
 }
 
+.selected-item-html-inner {
+  padding: 5px;
+}
+
 .selected-item-img, .selected-item-html {
   display: inline-block;
   background-color: rgba(200, 200, 200, 0.5);
@@ -23,7 +27,6 @@
 }
 
 .selected-item-html {
-  padding: 5px;
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -33,7 +36,8 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
+  width: inherit;
+  box-sizing: border-box;
   height: 100%;
 
   -webkit-transition: opacity 1s; /* Safari */
