@@ -117,6 +117,20 @@ demo1CarouselInfo =
       "nameFontFamily": "",
       "descFontFamily": "",
       "itemOutlineWidth": 2
+    },
+    "selectedItemInfo": {
+      "padding": 20,
+      "backgroundColorRGBA": "rgba(200, 250, 250, 0.8)",
+      "selectedItemOutlineColor": "white",
+      "selectedItemOutlineWidth": "3",
+      "nameColor": "black",
+      "descColor": "darkgray",
+      "detailsColor": "#333",
+      "minFontSize": 10,
+      "maxFontSize": 30,
+      "nameFontFamily": "",
+      "descFontFamily": "",
+      "detailsFontFamily": ""
     }
 }
 
@@ -137,6 +151,7 @@ demo1CarouselInfo =
 - items: - define all carousel items. if a carousel item contains children, each child must define their sizeRatio and positionRatio, they are relative to the width and height of the parent carousel item.
 - carouselItemInfo - carousel item text colors, mini-fontSize, max-fontSize, fint families, outline color and width
 - carouselChildItemInfo - carousel child item text colors, mini-fontSize, max-fontSize, fint families, outline color and width
+- selectedItemInfo - if this is defined, when click on carousel item, there will be a details layer displaying on the top of carousel, in the items, you can define an entry of selectedImg, which will be displayed in the left of the details layer. If selectedImg is not defined, it will use the img instead. 
 
 ## Sample project
 https://github.com/franksongca/easy-carousel-demo
