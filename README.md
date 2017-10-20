@@ -30,7 +30,7 @@ Before running the tests make sure you are serving the app via `ng serve`.
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 https://www.usefuldev.com/blog/post/publishing-a-library-from-an-angular-cli-project
 
-#Usage
+# Usage
 
 ## Template
 <easy-carousel [carouselInfo]="demo1CarouselInfo" (onNotifyCarouselSelected)="onCarouselDemo1Selected($event)"></easy-carousel>
@@ -142,7 +142,7 @@ demo1CarouselInfo =
 
 - looping: move to left/right endlessly,  
 - maxWidth: The maxmium width of the carouse
-- ratioHW": the ratio of height vs width for each carousel item
+- ratioHW: the ratio of height vs width for each carousel item
 - itemsInOneScreen: the account of carousel items display in one screen
 - animationDuration: the carousel animation duration
 - carouselItemInfo: define color, font-size and font-family of each carousel item
