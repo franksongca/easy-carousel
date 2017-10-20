@@ -314,7 +314,7 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
       this.carouselInfo.selectedItemInfo.width = this.carouselInfo.itemsInOneScreen * this.carouselInfo.originalWidth - this.carouselInfo.selectedItemInfo.padding * 2;
       this.carouselInfo.selectedItemInfo.height = this.carouselInfo.originalHeight - this.carouselInfo.selectedItemInfo.padding * 2;
       this.carouselInfo.selectedItemInfo.imageWidth = this.carouselInfo.selectedItemInfo.height/this.carouselInfo.ratioHW;
-      this.carouselInfo.selectedItemInfo.htmlWidth = this.carouselInfo.selectedItemInfo.width - this.carouselInfo.selectedItemInfo.imageWidth - this.carouselInfo.selectedItemInfo.selectedItemOutlineWidth * 2 - this.carouselInfo.selectedItemInfo.padding * 2;
+      this.carouselInfo.selectedItemInfo.htmlWidth = this.carouselInfo.selectedItemInfo.width - this.carouselInfo.selectedItemInfo.imageWidth - this.carouselInfo.selectedItemInfo.padding * 2;
     }
   }
 

@@ -120,17 +120,21 @@ demo1CarouselInfo =
     },
     "selectedItemInfo": {
       "padding": 20,
-      "backgroundColorRGBA": "rgba(200, 250, 250, 0.8)",
+      "backdropColorRGBA": "rgba(90, 150, 150, 0.7)",
+      "backgroundColorRGBA": "rgba(190, 0, 0, 0.5)",
       "selectedItemOutlineColor": "white",
-      "selectedItemOutlineWidth": "3",
-      "nameColor": "black",
-      "descColor": "darkgray",
-      "detailsColor": "#333",
+      "selectedItemOutlineWidth": 3,
+      "nameColor": "yellow",
+      "descColor": "white",
+      "detailsColor": "white",
       "minFontSize": 10,
       "maxFontSize": 30,
       "nameFontFamily": "",
       "descFontFamily": "",
-      "detailsFontFamily": ""
+      "detailsFontFamily": "",
+      "boxShadow": "6px 6px 5px 0px rgba(31,28,31,1)",
+      "closeButtonColor": "white",
+      "closeButtonTextShadow": "1px 2px 3px #000000"
     }
 }
 
