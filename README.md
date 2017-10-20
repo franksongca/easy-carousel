@@ -32,10 +32,26 @@ https://www.usefuldev.com/blog/post/publishing-a-library-from-an-angular-cli-pro
 
 # Usage
 
+## Import Module (for angular cli)
+
+- insert the bottom line at the top of app.module.ts
+  import { EasyCarouselModule } from 'easy-carousel/build/easy-carousel.module'
+
+- inser EasyCarouselModule.forRoot() into app.module.ts,  
+@NgModule({
+  import: [
+    ...,
+    EasyCarouselModule.forRoot(),
+    ...
+  ]
+  ...
+})
+
 ## Template
 <easy-carousel [carouselInfo]="demo1CarouselInfo" (onNotifyCarouselSelected)="onCarouselDemo1Selected($event)"></easy-carousel>
-
-## Module (Sample data)
+- the configuration demo1CarouselInfo is defined like in below 'Sample Configuration'
+  
+## Sample Configuration
 demo1CarouselInfo = 
 {
   "looping": true,
@@ -139,7 +155,6 @@ demo1CarouselInfo =
 }
 
 ## Configuration Details
-
 - looping: move to left/right endlessly,  
 - maxWidth: The maxmium width of the carouse
 - ratioHW: the ratio of height vs width for each carousel item
@@ -159,3 +174,7 @@ demo1CarouselInfo =
 
 ## Sample project
 https://github.com/franksongca/easy-carousel-demo
+
+## How to create angular project by [Angular CLI]
+- please refer to: https://github.com/angular/angular-cli
+
