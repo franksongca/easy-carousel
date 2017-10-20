@@ -35,7 +35,7 @@
         }">
         <div class="selected-item-img" [ngStyle]="{'width': carouselInfo?.selectedItemInfo.imageWidth + 'px', 'height': carouselInfo?.selectedItemInfo.height + 'px', 'background-image': 'url(' + selectedCarouselItem?.selectedImg + ')'}"></div>
 
-        <div class="selected-item-html" [ngStyle]="{'width': carouselInfo?.selectedItemInfo.htmlWidth + 'px', 'height': carouselInfo?.selectedItemInfo.height + 'px'}">
+        <div class="selected-item-html" [ngStyle]="{'max-width': carouselInfo?.selectedItemInfo.htmlWidth + 'px', 'height': carouselInfo?.selectedItemInfo.height + 'px'}">
           <div class="selected-item-html-inner">
             <div class="selected-name" [ngStyle]="{'font-family': carouselInfo?.selectedItemInfo.nameFontFamily, 'color': carouselInfo?.selectedItemInfo.nameColor, 'font-size': carouselInfo?.selectedItemInfo.nameFontSize + 'px'}">{{selectedCarouselItem.name}}</div>
             <div class="selected-desc" [ngStyle]="{'font-family': carouselInfo?.selectedItemInfo.descFontFamily, 'color': carouselInfo?.selectedItemInfo.descColor, 'font-size': carouselInfo?.selectedItemInfo.descFontSize + 'px'}">{{selectedCarouselItem.desc}}</div>
