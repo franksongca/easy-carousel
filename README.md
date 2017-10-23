@@ -59,6 +59,7 @@ https://www.usefuldev.com/blog/post/publishing-a-library-from-an-angular-cli-pro
 ## Sample Configuration
 demo1CarouselConfig = 
 {
+  "baseImagePath": "./assets/img/carousel/",
   "looping": true,
   "ratioHW": 0.65,
   
@@ -88,12 +89,12 @@ demo1CarouselConfig =
   },
   "trnsactionEffect": "ease-in",
   "items": [
-    {"id": 1, "img": "./assets/img/carousel/1.jpg", "name": "NAME 1", "desc": "desc 1"},
+    {"id": 1, "img": "1.jpg", "name": "NAME 1", "desc": "desc 1"},
     {
       "items": [
         {
           "id": 2,
-          "img": "./assets/img/carousel/2-1.jpg",
+          "img": "2-1.jpg",
           "name": "NAME 2-1",
           "desc": "desc 2-1",
           "sizeRatio": {
@@ -107,7 +108,7 @@ demo1CarouselConfig =
         },
         {
           "id": 3,
-          "img": "./assets/img/carousel/4.jpg",
+          "img": "4.jpg",
           "name": "NAME 2-2",
           "desc": "desc 2-2",
           "sizeRatio": {
@@ -121,7 +122,7 @@ demo1CarouselConfig =
         },
         {
           "id": 17,
-          "img": "./assets/img/carousel/10.jpg",
+          "img": "10.jpg",
           "name": "NAME 2-3",
           "desc": "desc 2-3",
           "sizeRatio": {
@@ -176,6 +177,7 @@ demo1CarouselConfig =
 }
 
 ## Configuration Details
+- baseImagePath: base url for the carousel images, if this property is defined, then don't include the path in the carousel images' definitin
 - looping: move to left/right endlessly,  
 - ratioHW: the ratio of height vs width for each carousel item
 - maxWidth: The maxmium width of the carouse

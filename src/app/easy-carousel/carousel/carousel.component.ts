@@ -184,16 +184,20 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
       this.carouselInfo.items.forEach((item, index) => {
         item.index = index;
       });
+
+      this.carouselInfo.baseImagePath = this.carouselInfo.baseImagePath || '';
       this.resetData();
     }
   }
 
   resetData() {
-    this.carouselInfo.itemsInOneScreenGroups.sort((a, b) => {
-      if (a.screenWidth > b.screenWidth) return -1;
-      if (a.screenWidth < b.screenWidth) return 1;
-      return 0;
-    });
+    if (this.carouselInfo.itemsInOneScreenGroups) {
+      this.carouselInfo.itemsInOneScreenGroups.sort((a, b) => {
+        if (a.screenWidth > b.screenWidth) return -1;
+        if (a.screenWidth < b.screenWidth) return 1;
+        return 0;
+      });
+    }
 
     this.carouselInfo.items.sort((a, b) => {
       if (a.index < b.index) return -1;
@@ -203,7 +207,7 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
 
     this.carouselIndex = 0;
 
-    this.carouselInfo.maxWidth =  this.carouselInfo.maxWidth || this.getMaxScreenWidth();
+    this.carouselInfo.maxWidth =  this.getMaxScreenWidth();
     this.carouselInfo.itemsInOneScreen = this.getItemsInOneScreen(window.innerWidth);
 
     if (this.carouselInfo.looping) {
@@ -268,34 +272,42 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
   getItemsInOneScreen(w) {
     let account = this.getInOneScreenItesm4MaxScreenWidth();
 
-    this.carouselInfo.itemsInOneScreenGroups.forEach((item) => {
-      if (w < item.screenWidth) {
-        account = item.itemsInOneScreen;
-      }
-    });
+    if (this.carouselInfo.itemsInOneScreenGroups) {
+      this.carouselInfo.itemsInOneScreenGroups.forEach((item) => {
+        if (w < item.screenWidth) {
+          account = item.itemsInOneScreen;
+        }
+      });
+    }
 
     return account;
   }
 
   getMaxScreenWidth() {
-    let maxWidth = 0;
-    this.carouselInfo.itemsInOneScreenGroups.forEach((item) => {
-      if (item.screenWidth > maxWidth) {
-        maxWidth = item.screenWidth;
-      }
-    });
+    let maxWidth = this.carouselInfo['maxWidth'];
+
+    if (this.carouselInfo.itemsInOneScreenGroups) {
+      this.carouselInfo.itemsInOneScreenGroups.forEach((item) => {
+        if (item.screenWidth > maxWidth) {
+          maxWidth = item.screenWidth;
+        }
+      });
+    }
 
     return maxWidth;
   }
 
   getInOneScreenItesm4MaxScreenWidth() {
-    let maxWidth = 0, itemsAccount = 0;
-    this.carouselInfo.itemsInOneScreenGroups.forEach((item) => {
-      if (item.screenWidth > maxWidth) {
-        maxWidth = item.screenWidth;
-        itemsAccount = item.itemsInOneScreen;
-      }
-    });
+    let maxWidth = 0, itemsAccount = this.carouselInfo['itemsInOneScreen'];
+
+    if (this.carouselInfo.itemsInOneScreenGroups) {
+      this.carouselInfo.itemsInOneScreenGroups.forEach((item) => {
+        if (item.screenWidth > maxWidth) {
+          maxWidth = item.screenWidth;
+          itemsAccount = item.itemsInOneScreen;
+        }
+      });
+    }
 
     return itemsAccount;
   }
