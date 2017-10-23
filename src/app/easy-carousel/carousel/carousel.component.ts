@@ -382,7 +382,7 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
       }
     });
 
-    if (this.carouselInfo.selectedItemInfo) {
+    if (this.carouselInfo.selectedItemInfo && this.carouselInfo.selectedItemInfo.enable) {
       this.carouselInfo.selectedItemInfo.padding = this.carouselInfo.selectedItemInfo.paddingOriginal * ratio;
       this.carouselInfo.selectedItemInfo['opacity'] = 0;
       this.carouselInfo.selectedItemInfo['nameFontSize'] = this.carouselInfo['originalHeight']/7.5 * 0.7;
@@ -410,21 +410,22 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
       if (goForward) {
         this.stopAutoPlay();
 
-        if (!!this.carouselInfo.selectedItemInfo) {
+        if (!!this.carouselInfo.selectedItemInfo && this.carouselInfo.selectedItemInfo.enable) {
           this.selectedCarouselItem = item;
           Observable.timer(0).subscribe(() => {
             this.carouselInfo.selectedItemInfo.opacity = 1;
           });
+        } else {
+          this.onNotifyCarouselSelected.emit(item.id);
         }
 
-        this.onNotifyCarouselSelected.emit(item.id);
       }
     });
   }
 
-  // onSelectedItemClicked(id) {
-  //   alert('element ' + id + ' selected!');
-  // }
+  onSelectedCarouselItemClicked(id) {
+    this.onNotifyCarouselSelected.emit(id);
+  }
 
   closeSelected() {
     if (this.carouselInfo.selectedItemInfo) {
