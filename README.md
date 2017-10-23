@@ -30,9 +30,12 @@ Before running the tests make sure you are serving the app via `ng serve`.
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 https://www.usefuldev.com/blog/post/publishing-a-library-from-an-angular-cli-project
 
-# Usage
+# Usage [for Angular CLI]
 
-## Import Module (for angular cli)
+## Install easy-carousel
+- in your project root folder, run: npm install easy-carousel --save
+
+## Import Module 
 
 - insert the bottom line at the top of app.module.ts
   import { EasyCarouselModule } from 'easy-carousel/build/easy-carousel.module'
@@ -48,16 +51,34 @@ https://www.usefuldev.com/blog/post/publishing-a-library-from-an-angular-cli-pro
 })
 
 ## Template
-<easy-carousel [carouselInfo]="demo1CarouselInfo" (onNotifyCarouselSelected)="onCarouselDemo1Selected($event)"></easy-carousel>
-- the configuration demo1CarouselInfo is defined like in below 'Sample Configuration'
+<easy-carousel [carouselInfo]="demo1CarouselConfig" (onNotifyCarouselSelected)="onCarouselDemo1Selected($event)"></easy-carousel>
+
+- the configuration 'demo1CarouselConfig' is defined like in below 'Sample Configuration' section
+- implement the function onCarouselDemo1Selected in the component .ts
   
 ## Sample Configuration
-demo1CarouselInfo = 
+demo1CarouselConfig = 
 {
   "looping": true,
-  "maxWidth": 1200,
   "ratioHW": 0.65,
+  
+  "maxWidth": 1200,
   "itemsInOneScreen": 3,
+  "itemsInOneScreenGroups": [
+    {
+      "screenWidth": 600,
+      "itemsInOneScreen": 2
+    },
+    {
+      "screenWidth": 900,
+      "itemsInOneScreen": 3
+    },
+    {
+      "screenWidth": 1200,
+      "itemsInOneScreen": 4
+    }
+  ],
+  
   "animationDuration": 1.5,
   "itemOutlineColor": "white",
   "autoPlay": {
@@ -156,9 +177,10 @@ demo1CarouselInfo =
 
 ## Configuration Details
 - looping: move to left/right endlessly,  
-- maxWidth: The maxmium width of the carouse
 - ratioHW: the ratio of height vs width for each carousel item
+- maxWidth: The maxmium width of the carouse
 - itemsInOneScreen: the account of carousel items display in one screen
+- itemsInOneScreenGroups: dynamic number of on screen carousel items for different window's width. If this property is defined, then maxWidth and itemsInOneScreen don't need to be defined
 - animationDuration: the carousel animation duration
 - carouselItemInfo: define color, font-size and font-family of each carousel item
 - carouselChildItemInfo: define color, font-size and font-family of each child carousel item
