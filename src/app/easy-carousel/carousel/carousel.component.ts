@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input, HostListener, SimpleChanges, OnChanges, AfterViewInit } from '@angular/core';
+import { Component, OnDestroy, Output, EventEmitter, Input, HostListener, SimpleChanges, OnChanges, AfterViewInit } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
 @Component({
@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Rx';
   templateUrl: './carousel.component.html',
   styleUrls: ['./carousel.component.css']
 })
-export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
+export class CarouselComponent implements OnDestroy, AfterViewInit, OnChanges {
   static MIN_IDEL_TIME = 5000;
   static  MOVE_LEFT = 0;
   static  MOVE_RIGHT = 1;
@@ -14,7 +14,6 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() carouselInfo: any;
 
   @Output() onNotifyCarouselSelected: EventEmitter<Object> = new EventEmitter<any>();
-
   autoPlayTimer;
   selectedCarouselItem;
   mouseEventManager;
@@ -165,7 +164,25 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
     });
   }
 
-  ngOnInit() {
+  ngOnDestroy() {
+    if (this.autoPlayHandler) {
+      this.autoPlayHandler.unsubscribe();
+    }
+
+
+    this.stopAutoPlay();
+    this.mouseEventManager.stopTimers();
+    this.mouseEventManager = null;
+
+    this.carouselIndex = 0;
+    this.allowMoveLeft = true;
+    this.allowMoveRight = false;
+    this.inAutoPlaying = false;
+    this.idleCount = 0;
+    this.idleCountIndex = 0;
+    this.moveingDir = CarouselComponent.MOVE_LEFT;
+    this.resetData();
+
   }
 
   ngAfterViewInit() {
@@ -397,7 +414,7 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
 
       this.carouselInfo.selectedItemInfo.width = this.carouselInfo.itemsInOneScreen * this.carouselInfo.originalWidth - this.carouselInfo.selectedItemInfo.padding * 2;
       this.carouselInfo.selectedItemInfo.height = this.carouselInfo.originalHeight - this.carouselInfo.selectedItemInfo.padding * 2;
-      this.carouselInfo.selectedItemInfo.imageWidth = this.carouselInfo.selectedItemInfo.height/this.carouselInfo.ratioHW;
+      this.carouselInfo.selectedItemInfo.imageWidth = this.carouselInfo.selectedItemInfo.height / this.carouselInfo.ratioHW;
       this.carouselInfo.selectedItemInfo.htmlWidth = this.carouselInfo.selectedItemInfo.width - this.carouselInfo.selectedItemInfo.imageWidth - this.carouselInfo.selectedItemInfo.padding * 2;
     }
   }
@@ -498,6 +515,15 @@ export class MouseEventManager {
       this.positionX = -1;
     } else {
       this.allowClick = true;
+    }
+  }
+
+  stopTimers() {
+    if (this.allowCheckTimer) {
+      this.allowCheckTimer.unsubscribe();
+    }
+    if (this.expiredCheckTimer) {
+      this.expiredCheckTimer.unsubscribe();
     }
   }
 }
